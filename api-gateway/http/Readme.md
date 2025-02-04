@@ -1,1 +1,0 @@
-curl https://xxiqb2lmaf.execute-api.ca-central-1.amazonaws.com?first_name=Andrew&last_name=Brown

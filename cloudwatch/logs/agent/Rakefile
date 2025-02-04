@@ -1,7 +1,0 @@
-require_relative 'data_generator.rb'
-
-task :run do
-  DataGenerator.run(
-    base_url: "http://15.157.62.176:3000"
-  )
-end
