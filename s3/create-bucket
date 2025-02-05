@@ -7,9 +7,11 @@ if [ -z "$1" ]; then
     exit 1
 fi
 
+BUCKET_NAME=$1
+
 # https://docs.aws.amazon.com/cli/latest/reference/s3api/create-bucket.html
 aws s3api create-bucket \
---bucket $1 \
+--bucket $BUCKET_NAME \
  --create-bucket-configuration LocationConstraint=eu-north-1 \
  --query Location \
  --output text
