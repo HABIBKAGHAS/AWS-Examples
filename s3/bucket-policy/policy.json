@@ -1,0 +1,12 @@
+{
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Principal": {
+        "AWS": "arn:aws:iam::860696518433:root"
+      },
+      "Action": ["s3:ListBucket", "s3:GetObject", "s3:PutObject"],
+      "Resource": ["arn:aws:s3:::my-habib-bucket", "arn:aws:s3:::my-habib-bucket/*"]
+    }
+  ]
+}
