@@ -1,0 +1,10 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": "sts:AssumeRole",
+      "Resource": "arn:aws:iam::376129873245:role/my-sts-stack-StsRole-7s2pYq0ghDKj"
+    }
+  ]
+}
