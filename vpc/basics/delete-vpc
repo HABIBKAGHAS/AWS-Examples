@@ -1,0 +1,47 @@
+#!/usr/bin/env bash
+echo "== delete a vpc:" $1
+
+# Check if the first argument is provided
+if [ -z "$1" ]; then
+    echo "There needs to be a vpc id eg. vpc-xxxxxxxxxxxxx"
+    exit 1
+fi
+
+SUBNET_IDS=$(aws ec2 describe-subnets \
+--filters "Name=vpc-id,Values=$1" \
+--query "Subnets[*].SubnetId" \
+--output text)
+
+echo $SUBNET_IDS
+
+for SUBNET_ID in $SUBNET_IDS; do
+    echo "Deleting Subnet ID: $SUBNET_ID"
+    aws ec2 delete-subnet --subnet-id $SUBNET_ID
+done
+
+# detach the igws from the VPC
+
+IGW_IDS=$(aws ec2 describe-internet-gateways \
+--filters "Name=attachment.vpc-id,Values=$1" \
+--query "InternetGateways[*].InternetGatewayId" \
+--output text)
+
+echo $IGW_IDS
+
+for IGW_ID in $IGW_IDS; do
+    echo "Deataching Internet Gateway ID: $IGW_ID"
+    aws ec2 detach-internet-gateway --internet-gateway-id $IGW_ID --vpc-id $1
+done
+
+
+# delete the IGWs
+for IGW_ID in $IGW_IDS; do
+    echo "Deleting Internet Gateway ID: $IGW_ID"
+    aws ec2 delete-internet-gateway --internet-gateway-id $IGW_ID
+done
+
+# delete our vpc
+aws ec2 delete-vpc --vpc-id $1
+
+echo "Done!"
+
