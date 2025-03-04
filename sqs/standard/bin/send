@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+echo "== send SQS message"
+
+QUEUE_URL=https://sqs.us-east-1.amazonaws.com/376129873245/sqs-standard-deploy-MyQueue-xIiaOLZ4looK
+
+aws sqs send-message \
+--queue-url $QUEUE_URL \
+--message-body "Information about the largest city in Any Region." \
+--delay-seconds 0 \
+--message-attributes file://send-message.json

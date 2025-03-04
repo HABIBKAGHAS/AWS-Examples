@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+echo "== recieving messages from standard SQS queue"
+
+QUEUE_URL=https://sqs.us-east-1.amazonaws.com/376129873245/sqs-standard-deploy-MyQueue-xIiaOLZ4looK
+
+aws sqs receive-message \
+--queue-url $QUEUE_URL \
+--attribute-names All \
+--message-attribute-names All \
+--max-number-of-messages 10 \
+--query 'Messages[*].MessageAttributes'

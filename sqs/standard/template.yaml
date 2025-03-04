@@ -1,0 +1,14 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: "this is a standard SQS Queue"
+Parameters:
+  AlarmEmail:
+    Default: "jane.doe@example.com"
+    Description: "Email address to notify of operational issues"
+    Type: "String"
+Resources:
+  # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-sqs-queue.html#aws-resource-sqs-queue--examples
+  MyQueue:
+    Type: AWS::SQS::Queue
+    # Properties:
+    #   QueueName: "SampleQueue"
+    # FifoQueue: false
