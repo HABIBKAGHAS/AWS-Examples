@@ -42,3 +42,6 @@ node_modules/*
 
 package-lock.json
 yarn.lock
+
+.aws-sam
+.aws-sam/*
