@@ -1,0 +1,60 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: A MSK cluster
+Resources:
+  # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-msk-configuration.html
+  MSKConfig:
+    Type: AWS::MSK::Configuration
+    Properties:
+      Description: MSK Config
+      KafkaVersionsList:
+        - 3.6.0
+      LatestRevision:
+        # CreationTime: String
+        Description: "Second test"
+        Revision: 1
+      Name: test-config-2
+      ServerProperties: "log.retention.hours=10"
+
+  # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-msk-cluster.html#cfn-msk-cluster-storagemode
+  MSKCluster:
+    Type: AWS::MSK::Cluster
+    Properties:
+      BrokerNodeGroupInfo:
+        ClientSubnets:
+          - subnet-0811f8f7abcf8bc2e
+          - subnet-0ca272da5edd84552
+          # - subnet-079ea38786be289d3
+        # ConnectivityInfo:
+        #   PublicAccess:
+        #     Type: String
+        # VpcConnectivity:
+        #   ClientAuthentication:
+        #     VpcConnectivityClientAuthentication
+
+        InstanceType: kafka.t3.small
+        SecurityGroups:
+          - sg-053538b4deacc78bf
+        StorageInfo:
+          EBSStorageInfo:
+            # ProvisionedThroughput:
+            #   Enabled: true
+            #   VolumeThroughput: 1
+            VolumeSize: 1
+
+      ClientAuthentication:
+        Sasl:
+          Iam:
+            Enabled: true
+      ClusterName: test-cluster
+      ConfigurationInfo:
+        Arn: !Ref MSKConfig
+        Revision: !GetAtt MSKConfig.LatestRevision.Revision
+      # EncryptionInfo: EncryptionInfo
+      # EnhancedMonitoring: String
+      KafkaVersion: 3.6.0
+      # LoggingInfo: LoggingInfo
+      NumberOfBrokerNodes: 2
+      # OpenMonitoring: OpenMonitoring
+      StorageMode: LOCAL
+      # Tags:
+      #   Key: Value

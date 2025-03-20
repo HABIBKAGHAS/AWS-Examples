@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+set -e
+
+aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 376129873245.dkr.ecr.us-east-1.amazonaws.com
+
+
+docker build -t python-container-example .
+
+docker tag python-container-example:latest 376129873245.dkr.ecr.us-east-1.amazonaws.com/python-container-example:latest
+
+docker push 376129873245.dkr.ecr.us-east-1.amazonaws.com/python-container-example:latest

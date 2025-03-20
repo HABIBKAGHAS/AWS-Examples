@@ -1,0 +1,15 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: A Msk cluster configuration
+Resources:
+  MSKConfig:
+    Type: AWS::MSK::Configuration
+    Properties:
+      Description: String
+      KafkaVersionsList:
+        - 3.6.0
+      LatestRevision:
+        # CreationTime: String
+        Description: "First test"
+        Revision: 1
+      Name: test-config
+      ServerProperties: "log.retention.hours=10"

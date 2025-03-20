@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+set -e
+
+root_path=$(realpath .)
+template_path="${root_path}/template.yml"
+function_path="${root_path}"
+
+sam build \
+    --template-file "${template_path}" \
+    --base-dir "${function_path}"

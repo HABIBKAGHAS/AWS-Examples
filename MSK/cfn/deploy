@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+echo "== deploy msk via cloud formation CFN"
+
+STACK_NAME="cfn-msk-simple"
+
+aws cloudformation deploy \
+--template-file template.yaml \
+--stack-name $STACK_NAME
+
+# --no-execute-changeset \
