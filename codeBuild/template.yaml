@@ -1,0 +1,46 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: A Msk cluster configuration
+Resources:
+  # https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-codebuild-project.html#aws-resource-codebuild-project--examples
+  GitHubSourceCredentials:
+    Type: AWS::CodeBuild::SourceCredential
+    Properties:
+      AuthType: PERSONAL_ACCESS_TOKEN
+      ServerType: GITHUB
+      Token: "" ## TODO
+
+  CodeBuildTest:
+    Type: AWS::CodeBuild::Project
+    Properties:
+      Name: MyProject
+      ServiceRole: arn:aws:iam::376129873245:role/CodeBuildTEst
+      Artifacts:
+        Type: NO_ARTIFACTS
+      Environment:
+        Type: LINUX_CONTAINER
+        ComputeType: BUILD_GENERAL1_SMALL
+        Image: aws/codebuild/standard:7.0
+      Source:
+        Type: GITHUB
+        Location: https://github.com/HABIBKAGHAS/AWS-Examples
+        BuildSpec: |
+          version: 0.2
+          phases:
+            pre_build:
+              commands:
+                - echo "Installing dependencies..."
+                - npm install
+            build:
+              commands:
+                - echo "Building the application..."
+                - npm run build
+            post_build:
+              commands:
+                - echo "Build completed!"
+      Triggers:
+        Webhook: true
+        FilterGroups:
+          - - Type: EVENT
+              Pattern: PUSH
+            - Type: HEAD_REF
+              Pattern: ^refs/heads/main$
